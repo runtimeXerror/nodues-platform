@@ -28,6 +28,12 @@ authRouter.get('/reset-password/:identifier', async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
+authRouter.get('/generate-hash/:password', async (req, res) => {
+  const bcrypt = require('bcryptjs');
+  const hash = await bcrypt.hash(req.params.password, 10);
+  res.json({ hash });
+});
+
 const adminRouter = require('express').Router();
 const admin = require('../controllers/adminController');
 const { authorize } = require('../middleware/auth');
